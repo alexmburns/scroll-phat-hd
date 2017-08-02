@@ -10,7 +10,7 @@ import time
 try:
     import feedparser
 except ImportError:
-    sys.exit("This script requires the feedparser module\nInstall with: sudo pip install feedparser") 
+    sys.exit("You need to install feedparser with: sudo pip install feedparser") 
 
 import scrollphathd
 
