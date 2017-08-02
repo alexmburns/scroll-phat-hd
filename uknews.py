@@ -29,7 +29,7 @@ def get_timeout():
     return ticks_per_second * refresh_interval
 
 def get_news():
-# Get the weather data
+# Get the news
     d = feedparser.parse(url)
     entries = int(len(d['entries']))
     val = "        " + d['entries'][0]['title']
