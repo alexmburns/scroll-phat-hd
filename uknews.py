@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-#Original code by campag, updated to run on scroll-phat-hd by alexmburns.
+#Thanks To campag for concept/code.
+#Written by alexmburns.
 
 from __future__ import print_function
 import subprocess
@@ -9,7 +10,7 @@ import time
 try:
     import feedparser
 except ImportError:
-    sys.exit("This script requires the feedparser module\nInstall with: sudo pip install feedparser") 
+    sys.exit("You need to install feedparser with: sudo pip install feedparser") 
 
 import scrollphathd
 
