@@ -12,7 +12,7 @@ import scrollphathd
 
 
 print("""
-Scroll pHAT HD: Stick Man
+Scroll pHAT HD: Your BMP
 
 Loads your .bmp and scrolls it across the screen.
 
