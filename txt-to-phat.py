@@ -12,7 +12,7 @@ Press Ctrl+C to exit!
 # Uncomment the below if your display is upside down
 #scrollphathd.rotate(degrees=180)
 
-scrollphathd.write_string(''.join(file('/home/pi/test.txt')), brightness=0.5)
+scrollphathd.write_string('  ' + ''.join(file('/home/pi/test.txt')), brightness=0.5)
 
 # Auto scroll using a while + time mechanism (no thread)
 while True:
