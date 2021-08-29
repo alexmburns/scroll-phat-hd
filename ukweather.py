@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #Original code by campag, updated to run on scroll-phat-hd by alexmburns.
+#Additional code from dc602003, updated to operate with new BBC URLs and location codes. Added rotation for Pimoroni Scrollbot configuration. Also use pip3 and python3 to launch.
 
 from __future__ import print_function
 import subprocess
@@ -9,12 +10,13 @@ import time
 try:
     import feedparser
 except ImportError:
-    sys.exit("This script requires the feedparser module\nInstall with: sudo pip install feedparser") 
+    sys.exit("This script requires the feedparser module\nInstall with: sudo pip3 install feedparser") 
 
 import scrollphathd
 
 
 scrollphathd.set_brightness(0.5)
+scrollphathd.rotate(180)
 
 # Every refresh_interval seconds we'll refresh the weather data, doesn't change too often so 30mins appropriate
 pause = 0.12
@@ -22,19 +24,19 @@ ticks_per_second = 1/pause
 refresh_interval = 60*30
 
 if len(sys.argv)==2:
-    postcode = sys.argv[1]
+    location = sys.argv[1]
 else:
     print("Defaulting to Colchester")
-    postcode = "CO4" # Colchester (Enter your own postcode between the "")
+    location = "2638717" # St Neots (Enter your own Location code from BBC Weather URL between the "")
 
-url = "http://open.live.bbc.co.uk/weather/feeds/en/" + postcode + "/3dayforecast.rss"
+url = "http://weather-broker-cdn-api.bbci.co.uk/en/forecast/rss/3day/" + location
 
 def get_timeout():
     return ticks_per_second * refresh_interval
 
 def get_wet():
 # Get the weather data
-    print("Updating weather for", postcode)
+    print("Updating weather for", location)
     d = feedparser.parse(url)
     entries = int(len(d['entries']))
     val = "        " + d['entries'][0]['title']
@@ -57,7 +59,7 @@ scrollphathd.write_string(msg)
 
 while True:
     try:
-	scrollphathd.show()
+        scrollphathd.show()
         scrollphathd.scroll()
         time.sleep(0.05)
 
