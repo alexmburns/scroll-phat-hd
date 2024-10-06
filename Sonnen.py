@@ -5,7 +5,7 @@ from scrollphathd.fonts import font3x5  # Import the 3x5 font
 
 # Local API URL for your Sonnen system
 API_URL = "http://192.168.0.3/api/v1/status"
-ACCESS_TOKEN = "5f67cb85-8fff-40cc-acc3-e3bd05857d39"  # Your Sonnen API key
+ACCESS_TOKEN = ""  # Your Sonnen API key
 
 # Function to get Sonnen data
 def get_sonnen_data():
