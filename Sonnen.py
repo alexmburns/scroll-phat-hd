@@ -5,7 +5,7 @@ from scrollphathd.fonts import font3x5  # Import the 3x5 font
 
 # Local API URL for your Sonnen system
 API_URL = "http://192.168.0.3/api/v1/status"
-ACCESS_TOKEN = ""  # Your Sonnen API key
+ACCESS_TOKEN = "5f67cb85-8fff-40cc-acc3-e3bd05857d39"  # Your Sonnen API key
 
 # Function to get Sonnen data
 def get_sonnen_data():
@@ -23,17 +23,22 @@ def get_sonnen_data():
 # Function to display one piece of data on Scroll pHAT HD
 def display_message(message):
     scrollphathd.clear()
-    scrollphathd.write_string(message, x=0, y=0, font=font3x5, brightness=0.5)  # Use the 3x5 font
+    scrollphathd.write_string(message, x=0, y=0, font=font3x5, brightness=0.5)
     scrollphathd.show()
+    
+    # Flip the entire display buffer 180 degrees
+    scrollphathd.rotate(180)  # This rotates the buffer
+    scrollphathd.show()
+    time.sleep(2)  # Pause for 2 seconds to show the message
 
 # Function to safely get a numerical value and convert watts to kilowatts
 def get_kw_value(value):
     try:
         if isinstance(value, (int, float)):  # Ensure the value is a number
-            return f"{value / 1000:.1f}kW" if value != 0 else "0.0kW"
+            return f"{abs(value) / 1000:.1f}kW" if value != 0 else "0.0kW"  # Use abs() to remove the minus sign
         else:
             return "N/A"
-    except Exception as e:
+    except Exception:
         return "N/A"  # Handle any errors quietly
 
 # Function to display Sonnen data
@@ -45,7 +50,7 @@ def display_sonnen_data(data):
 
     # Handle negative values for grid power
     grid_feed_in = data.get('GridFeedIn_W', 0)
-    grid_kw = f"{grid_feed_in / 1000:.1f}kW" if grid_feed_in != 0 else "0.0kW"
+    grid_kw = f"{abs(grid_feed_in) / 1000:.1f}kW" if grid_feed_in != 0 else "0.0kW"  # Use abs() to remove the minus sign
 
     # Define the pages to display - each label followed by its value
     pages = [
@@ -60,20 +65,15 @@ def display_sonnen_data(data):
         for label, value in pages:
             # Display the label for 2 seconds
             display_message(label)
-            time.sleep(2)
 
             # Display the value for 2 seconds
             display_message(value)
-            time.sleep(2)
-
-        # Pause before refreshing the cycle
-        time.sleep(2)
 
 # Main loop
 while True:
     data = get_sonnen_data()
     if data:
         display_sonnen_data(data)
-    
-    # Refresh every 60 seconds
+
+    # Refresh every 60 seconds (no additional pause before refreshing the cycle)
     time.sleep(60)
